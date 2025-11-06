@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Utility helpers
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(uid) { return isSignedIn() && request.auth.uid == uid; }
+    function isPolice() {
+      return isSignedIn() && (
+        request.auth.token.role == 'police' ||
+        (request.auth.token.roles is list && 'police' in request.auth.token.roles)
+      );
+    }
+
+    // 1) Make ALL READS public so the dashboard can always fetch alerts.
+    //    Writes remain restricted below.
+    match /{document=**} {
+      allow read: if true;
+    }
+
+    // 2) Minimal WRITE permissions for users and police under /users/{uid}
+    match /users/{uid} {
+      // Owner can write their own user doc (create/update); no deletes by default
+      allow create, update: if isOwner(uid);
+      allow delete: if false;
+
+      // Alerts: users/{uid}/alerts/{state}/items/{alertId}
+      match /alerts/{state}/items/{alertId} {
+        // Owner may create ACTIVE alerts
+        allow create: if isOwner(uid) && state == 'active';
+
+        // Owner may mark ACTIVE resolved via update that adds resolvedAt (keep other fields free for now)
+        allow update: if isOwner(uid) && state == 'active' &&
+                      resource.data.resolvedAt == null &&
+                      request.resource.data.resolvedAt is timestamp;
+
+        // Police may resolve by deleting ACTIVE and creating PAST
+        allow delete: if isPolice() && state == 'active';
+        allow create: if isPolice() && state == 'past';
+      }
+    }
+  }
+}

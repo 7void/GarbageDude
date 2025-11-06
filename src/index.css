@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+:root{
+	--bg-900: #071021;
+	--bg-800: #091226;
+	--card: rgba(255,255,255,0.04);
+	--glass: rgba(255,255,255,0.04);
+	--muted: #9aa6b2;
+	--accent: #6c8cff;
+	--success: #34d399;
+	--danger: #ff6b6b;
+	--glass-border: rgba(255,255,255,0.06);
+}
+
+html,body,#root{
+	height:100%;
+}
+
+body{
+	background: radial-gradient(1200px 600px at 10% 10%, rgba(108,140,255,0.08), transparent 8%), linear-gradient(180deg,var(--bg-900),var(--bg-800));
+	color: #e6eef6;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+}
+
+/* Global dark scrollbars */
+/* Firefox */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(156, 163, 175, 0.35) rgba(17, 24, 39, 0.6);
+}
+/* Chromium/WebKit */
+*::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+*::-webkit-scrollbar-track {
+	background: rgba(17, 24, 39, 0.6); /* gray-900/60 */
+	border-radius: 8px;
+}
+*::-webkit-scrollbar-thumb {
+	background: rgba(156, 163, 175, 0.45); /* gray-400/45 */
+	border-radius: 8px;
+	border: 2px solid transparent; /* inset look */
+	background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+	background: rgba(156, 163, 175, 0.7);
+}
+
+/* Glass panels */
+.panel{
+	background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+	border: 1px solid var(--glass-border);
+	backdrop-filter: blur(6px) saturate(120%);
+}
+
+.card-elevated{
+	box-shadow: 0 6px 18px rgba(3,8,23,0.6);
+}
+
+.muted{ color: var(--muted);} 
+
+.accent{ color: var(--accent);} 
+
+/* Small utilities */
+.rounded-lg{ border-radius: 12px; }
+.soft-pad{ padding: 0.75rem; }
+.shadow-soft{ box-shadow: 0 6px 20px rgba(2,6,23,0.5);} 
+
+/* Map container sizing override to make map look better */
+.map-container{ height: 680px; border-radius: 12px; overflow:hidden; }
+
+/* Print styles: focus on the E-FIR preview */
+@media print {
+	/* Improve color fidelity when printing */
+	* {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+	/* Hide app chrome and form on EFIR page */
+	header, nav, #efir-form {
+		display: none !important;
+	}
+	/* Expand preview to page */
+	#efir-print {
+		border: none !important;
+		box-shadow: none !important;
+		width: auto !important;
+		max-width: 100% !important;
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+	/* If using grid, ensure preview takes full width */
+	.grid { display: block !important; }
+	@page {
+		size: A4;
+		margin: 12mm;
+	}
+}
+
+/* Custom UI range slider skin for dark UI with CSS variables */
+.ui-range {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 100%;
+	background: transparent;
+	cursor: pointer;
+}
+.ui-range::-webkit-slider-runnable-track {
+	height: 4px;
+	border-radius: 2px;
+	background: linear-gradient(
+		to right,
+		var(--track-color, #22C55E) var(--value, 50%),
+		#30363D var(--value, 50%)
+	);
+}
+.ui-range::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 16px;
+	height: 16px;
+	margin-top: -6px;
+	border-radius: 50%;
+	background: #F0F6FC;
+	border: 2px solid var(--thumb-color, #22C55E);
+}
+.ui-range::-moz-range-track {
+	height: 4px;
+	border-radius: 2px;
+	background: #30363D;
+}
+.ui-range::-moz-range-progress {
+	height: 4px;
+	border-radius: 2px;
+	background: var(--track-color, #22C55E);
+}
+.ui-range::-moz-range-thumb {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #F0F6FC;
+	border: 2px solid var(--thumb-color, #22C55E);
+}

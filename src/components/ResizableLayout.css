@@ -1,0 +1,303 @@
+/* ResizableLayout Styles */
+.dashboard-layout {
+  height: calc(100vh - 80px); /* Account for header */
+  width: 100%;
+}
+
+.panel-container {
+  height: 100%;
+  min-height: 0; /* allow flex children to shrink in column layouts */
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Resize Handles */
+.resize-handle {
+  position: relative;
+  background: transparent;
+  transition: all 0.2s ease;
+  z-index: 10;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  pointer-events: auto;
+}
+
+.resize-handle-horizontal {
+  width: 8px;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resize-handle-vertical {
+  height: 12px;
+  width: 100%;
+  cursor: row-resize;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.resize-handle:hover {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+.resize-handle-bar {
+  transition: all 0.2s ease;
+  border-radius: 2px;
+}
+
+.resize-handle-horizontal .resize-handle-bar {
+  width: 2px;
+  height: 32px;
+  background: rgba(156, 163, 175, 0.5);
+}
+
+.resize-handle-vertical .resize-handle-bar {
+  width: 64px;
+  height: 2px;
+  background: rgba(156, 163, 175, 0.6);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+}
+
+.resize-handle:hover .resize-handle-bar {
+  background: rgb(59, 130, 246);
+  transform: scale(1.2);
+}
+
+/* Mobile overlay for sidebar */
+@media (max-width: 768px) {
+  .resize-handle {
+    display: none;
+  }
+  
+  .dashboard-layout {
+    flex-direction: column;
+  }
+}
+
+/* Resizable Panel Styles */
+.resizable-panel {
+  height: 100%;
+  background: rgb(31, 41, 55);
+  border: 1px solid rgb(55, 65, 81);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.resizable-panel:hover {
+  border-color: rgb(75, 85, 99);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.resizable-panel.collapsed {
+  opacity: 0.7;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: rgba(17, 24, 39, 0.8);
+  border-bottom: 1px solid rgb(55, 65, 81);
+  backdrop-filter: blur(8px);
+}
+
+.panel-title {
+  color: rgb(243, 244, 246);
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.025em;
+}
+
+.panel-toggle {
+  background: transparent;
+  border: none;
+  color: rgb(156, 163, 175);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel-toggle:hover {
+  color: rgb(243, 244, 246);
+  background: rgba(75, 85, 99, 0.5);
+}
+
+.panel-toggle-icon {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panel-toggle-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.panel-content {
+  height: calc(100% - 50px);
+  overflow: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panel-content.hidden {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+/* Scrollbar Styling */
+.panel-content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.panel-content::-webkit-scrollbar-track {
+  background: rgba(17, 24, 39, 0.5);
+}
+
+.panel-content::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.3);
+  border-radius: 3px;
+}
+
+.panel-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.5);
+}
+
+/* Modern Color Palette Variables */
+:root {
+  /* Primary Alert Colors */
+  --color-panic-primary: #dc2626;
+  --color-panic-secondary: #fecaca;
+  --color-panic-bg: rgba(220, 38, 38, 0.1);
+  --color-panic-hover: #b91c1c;
+
+  --color-geofence-primary: #2563eb;
+  --color-geofence-secondary: #bfdbfe;
+  --color-geofence-bg: rgba(37, 99, 235, 0.1);
+  --color-geofence-hover: #1d4ed8;
+
+  --color-medical-primary: #f59e0b;
+  --color-medical-secondary: #fed7aa;
+  --color-medical-bg: rgba(245, 158, 11, 0.1);
+  --color-medical-hover: #d97706;
+
+  --color-security-primary: #7c3aed;
+  --color-security-secondary: #ddd6fe;
+  --color-security-bg: rgba(124, 58, 237, 0.1);
+  --color-security-hover: #6d28d9;
+
+  /* Severity Colors */
+  --color-high-severity: #dc2626;
+  --color-medium-severity: #f59e0b;
+  --color-low-severity: #10b981;
+
+  /* Status Colors */
+  --color-status-safe: #10b981;
+  --color-status-warning: #f59e0b;
+  --color-status-danger: #dc2626;
+  --color-status-unknown: #6b7280;
+
+  /* Background Colors */
+  --color-bg-primary: #111827;
+  --color-bg-secondary: #1f2937;
+  --color-bg-tertiary: #374151;
+  --color-border: #4b5563;
+  --color-border-light: #6b7280;
+
+  /* Text Colors */
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-text-muted: #9ca3af;
+
+  /* Interactive Colors */
+  --color-interactive-primary: #3b82f6;
+  --color-interactive-hover: #2563eb;
+  --color-interactive-active: #1d4ed8;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Utility Animation Classes */
+.animate-fade-in {
+  animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-in {
+  animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Smooth Transitions */
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-fast {
+  transition: all 0.15s ease;
+}
+
+.transition-slow {
+  transition: all 0.5s ease;
+}
